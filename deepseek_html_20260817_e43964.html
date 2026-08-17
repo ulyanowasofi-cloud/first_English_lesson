@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пробный урок английского ✦ эстетика</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* reset & base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #fbf7f2;
+            background-image: radial-gradient(circle at 20% 30%, #f7eee8 0%, #f3e8e0 90%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            margin: 0;
+            color: #3e3632;
+        }
+        .app {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 250, 245, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 48px;
+            padding: 2rem 2rem 2rem;
+            box-shadow: 0 20px 60px rgba(140, 110, 90, 0.15);
+            border: 1px solid rgba(245, 230, 220, 0.5);
+            position: relative;
+            transition: all 0.2s;
+            min-height: 600px;
+        }
+        /* декоративные элементы */
+        .deco {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.08;
+            font-size: 6rem;
+            transform: rotate(15deg);
+        }
+        .deco1 { top: 10px; right: 20px; }
+        .deco2 { bottom: 10px; left: 20px; transform: rotate(-20deg); }
+
+        /* шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.9rem;
+            color: #7a645a;
+        }
+        .progress-bar-bg {
+            width: 140px;
+            height: 6px;
+            background: #e6d5cb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #dbb8ab;
+            border-radius: 12px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .step-indicator {
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+        .teacher-toggle {
+            background: none;
+            border: 1px solid #dccbc2;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #7a645a;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Lato', sans-serif;
+        }
+        .teacher-toggle:hover {
+            background: #dccbc2;
+            color: #3e3632;
+        }
+        .teacher-toggle.active {
+            background: #dbb8ab;
+            border-color: #dbb8ab;
+            color: #fff8f4;
+        }
+
+        /* навигация экранов */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: #ede0d9;
+            border: none;
+            padding: 0.5rem 1.6rem;
+            border-radius: 40px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            color: #5f4a3f;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(150, 110, 90, 0.08);
+            border: 1px solid transparent;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background: #dccbc2;
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .nav-btn.primary {
+            background: #dbb8ab;
+            color: #fff8f4;
+        }
+        .nav-btn.primary:hover:not(:disabled) {
+            background: #ccaa99;
+        }
+        .screen {
+            display: none;
+            animation: fade 0.35s ease;
+        }
+        .screen.active {
+            display: block;
+        }
+        @keyframes fade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* общие карточки */
+        .card {
+            background: rgba(255, 248, 244, 0.75);
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 8px 28px rgba(160, 130, 115, 0.08);
+            border: 1px solid #f5e4db;
+        }
+        .card h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            color: #a67b6b;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            color: #a67b6b;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .sub {
+            color: #7a645a;
+            font-weight: 300;
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+        .btn {
+            background: #ede0d9;
+            border: none;
+            padding: 0.5rem 1.6rem;
+            border-radius: 40px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            color: #5f4a3f;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .btn:hover:not(:disabled) {
+            background: #dccbc2;
+        }
+        .btn-primary {
+            background: #dbb8ab;
+            color: #fff8f4;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: #ccaa99;
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        /* emoji grid */
+        .emoji-grid {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .emoji-item {
+            font-size: 2.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 0.3rem 0.6rem;
+            border-radius: 60px;
+            border: 2px solid transparent;
+            background: transparent;
+            line-height: 1.2;
+            text-align: center;
+        }
+        .emoji-item:hover {
+            transform: scale(1.15);
+        }
+        .emoji-item.selected {
+            border-color: #dbb8ab;
+            background: rgba(219, 184, 171, 0.15);
+            transform: scale(1.1);
+        }
+        .emoji-label {
+            font-size: 0.8rem;
+            color: #7a645a;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Wheel */
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .wheel-canvas-wrap {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 8px 30px rgba(160, 120, 100, 0.2);
+            cursor: pointer;
+            background: #f5e4db;
+        }
+        .wheel-question-box {
+            background: rgba(255, 248, 244, 0.9);
+            border-radius: 24px;
+            padding: 1rem 1.8rem;
+            min-height: 70px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #3e3632;
+            border: 1px solid #e6d5cb;
+            text-align: center;
+        }
+        .wheel-question-box .placeholder {
+            color: #b39184;
+            font-style: italic;
+            font-weight: 300;
+        }
+        .follow-up-btns {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+        .follow-up-btns .btn {
+            font-size: 0.8rem;
+            padding: 0.2rem 1rem;
+        }
+
+        /* two truths */
+        .truth-cards {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .truth-card {
+            background: #fdf9f6;
+            border-radius: 20px;
+            padding: 1rem 1.8rem;
+            border: 2px solid #e6d5cb;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.1rem;
+            min-width: 130px;
+            text-align: center;
+        }
+        .truth-card:hover {
+            transform: scale(1.03);
+        }
+        .truth-card.selected {
+            border-color: #dbb8ab;
+            background: #f5e4db;
+        }
+        .truth-card.lie-reveal {
+            border-color: #d97a7a;
+            background: #fde8e8;
+        }
+        .truth-card.truth-reveal {
+            border-color: #6f9e7a;
+            background: #e6f0e6;
+        }
+
+        /* picture talk */
+        .picture-talk img {
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 24px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .pic-question {
+            background: #fdf9f6;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            margin: 0.4rem 0;
+            border-left: 4px solid #dbb8ab;
+        }
+
+        /* goal builder sliders */
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .slider-row label {
+            min-width: 100px;
+            color: #5f4a3f;
+        }
+        .slider-row input[type="range"] {
+            flex: 1;
+            accent-color: #dbb8ab;
+        }
+        .slider-row span {
+            min-width: 30px;
+            text-align: center;
+            color: #7a645a;
+        }
+
+        /* matching game */
+        .match-area {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .match-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .match-item {
+            background: #fdf9f6;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            border: 2px solid #e6d5cb;
+            cursor: grab;
+            transition: 0.2s;
+            text-align: center;
+            min-width: 120px;
+        }
+        .match-item.dragging {
+            opacity: 0.5;
+        }
+        .match-item.droppable {
+            border-color: #dbb8ab;
+            background: #f5e4db;
+        }
+        .match-item.matched {
+            border-color: #6f9e7a;
+            background: #e6f0e6;
+            cursor: default;
+        }
+
+        /* snapshot */
+        .snapshot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 550px) { .snapshot-grid { grid-template-columns: 1fr; } }
+        .snapshot-card {
+            background: #fdf9f6;
+            border-radius: 20px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #e6d5cb;
+        }
+        .snapshot-card .label {
+            font-size: 0.8rem;
+            color: #7a645a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .snapshot-card .value {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.3rem;
+        }
+        .tag {
+            background: #ede0d9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #5f4a3f;
+        }
+        .tag.editable {
+            border: 1px dashed #dbb8ab;
+            background: transparent;
+        }
+
+        /* teacher mode overlay */
+        .teacher-notes {
+            background: #f5f0eb;
+            border-radius: 18px;
+            padding: 0.8rem 1.5rem;
+            margin: 0.8rem 0;
+            border-left: 4px solid #dbb8ab;
+            display: none;
+            font-size: 0.9rem;
+            color: #5f4a3f;
+        }
+        .teacher-notes.visible {
+            display: block;
+        }
+        .teacher-notes ul {
+            margin: 0.3rem 0 0 1.2rem;
+        }
+
+        /* responsive */
+        @media (max-width: 640px) {
+            .app { padding: 1.2rem; }
+            .card { padding: 1.2rem; }
+            .header { flex-direction: column; align-items: stretch; }
+            .progress-wrap { justify-content: center; }
+            .wheel-canvas-wrap { width: 200px; height: 200px; }
+        }
+
+        /* misc */
+        .flex-center { display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 0.8rem; }
+        .mt-1 { margin-top: 1rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .text-center { text-align: center; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        @media (max-width: 500px) { .grid-2 { grid-template-columns: 1fr; } }
+        .inline-flex { display: inline-flex; gap: 0.6rem; flex-wrap: wrap; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="app" id="app">
+    <span class="deco deco1">✦</span>
+    <span class="deco deco2">✧</span>
+
+    <!-- header -->
+    <div class="header">
+        <div class="progress-wrap">
+            <span class="step-indicator" id="stepIndicator">1 / 24</span>
+            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill" style="width:4%"></div></div>
+        </div>
+        <button class="teacher-toggle" id="teacherToggle">👩‍🏫 Teacher mode</button>
+    </div>
+
+    <!-- контейнер для экранов -->
+    <div id="screenContainer">
+        <!-- экраны будут вставлены сюда через JS -->
+    </div>
+
+    <!-- навигация -->
+    <div class="nav-bar">
+        <button class="nav-btn" id="prevBtn" disabled>← Back</button>
+        <span style="color:#7a645a; font-size:0.9rem;" id="navCounter">1 / 24</span>
+        <button class="nav-btn primary" id="nextBtn">Next →</button>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    //  DATA / CONFIG
+    // ============================================================
+    const CONFIG = {
+        teacherName: 'Anna',
+        lessonPrice: '60 min — $45',
+        packagePrice: '5 lessons — $200',
+        wheelQuestions: [
+            "What's something you could talk about for hours?",
+            "What does your perfect weekend look like?",
+            "Coffee or tea? Convince me.",
+            "What was the last good film or series you watched?",
+            "What's one place you really want to visit?",
+            "Are you a morning person or a night owl?",
+            "What's something you're really good at?",
+            "What app do you use way too much?",
+            "If you had a free plane ticket tomorrow, where would you go?",
+            "What's your current favourite song?",
+            "What's one food you could never give up?",
+            "Would you rather live by the sea or in a big city?",
+            "What's something you want to learn this year?",
+            "What always makes your day better?",
+            "What's one thing people often misunderstand about you?"
+        ],
+        twoTruths: {
+            facts: ["I have studied in Italy.", "I’ve never watched Harry Potter.", "I can speak four languages."],
+            lieIndex: 1 // 0-based: "I’ve never watched Harry Potter." is lie
+        },
+        vocabularyPairs: [
+            { base: 'very tired', upgrade: 'exhausted' },
+            { base: 'very hungry', upgrade: 'starving' },
+            { base: 'very beautiful', upgrade: 'stunning' },
+            { base: 'very crowded', upgrade: 'packed' },
+            { base: 'very interesting', upgrade: 'fascinating' },
+            { base: 'very good', upgrade: 'brilliant' }
+        ],
+        // для мини-диагностики
+        diagnosticTasks: [
+            { q: 'Which sounds natural?', options: ['“I very like travelling.”', '“I really like travelling.”'], correct: 1, explain: 'We say “really like”, not “very like”.' },
+            { q: 'I’ve lived here ___ three years.', options: ['since', 'for', 'from', 'during'], correct: 1, explain: 'We use “for” with a period of time.' },
+            { q: 'Which sounds most natural?', options: ['If I will have time, I’ll call you.', 'If I have time, I’ll call you.'], correct: 1, explain: 'We use present tense after “if” for future.' }
+        ],
+        listeningScript: "Hey, should we go to that new Italian place tonight? I've heard it's really good. Actually, I'm not sure – I'm a bit tired. How about we just order something and watch a movie? Yeah, that sounds perfect. Let's do that."
+    };
+
+    // ============================================================
+    //  STATE
+    // ============================================================
+    const state = {
+        currentScreen: 0,
+        totalScreens: 0,
+        screens: [],
+        // эмодзи
+        selectedEmoji: null,
+        emojiReason: '',
+        // колесо
+        availableQuestions: [...CONFIG.wheelQuestions],
+        wheelRotation: 0,
+        lastWheelQuestion: null,
+        // two truths
+        lieGuessed: false,
+        userFacts: ['', '', ''],
+        // picture talk
+        picStep: 0,
+        // goals
+        goals: [],
+        goalSliders: { Speaking: 3, Listening: 3, Vocabulary: 3, Grammar: 3, Pronunciation: 3, Reading: 3, Writing: 3 },
+        // diagnostic
+        diagAnswers: [],
+        // vocabulary matching
+        matchedPairs: [],
+        // speaking challenge
+        challengeChoice: null,
+        // rapid fire
+        rapidIndex: 0,
+        rapidAnswers: [],
+        // snapshot (teacher editable)
+        snapshotLevel: 'B1',
+        snapshotSkills: { Speaking: 3, Vocabulary: 3, Grammar: 3, Listening: 3 },
+        snapshotStrengths: ['good basic grammar', 'willing to speak'],
+        snapshotWeaknesses: ['speaking confidence', 'active vocabulary'],
+        // feedback
+        studentFeedback: {},
+        // teacher mode
+        teacherMode: false,
+        // misc
+        hasStarted: false,
+    };
+
+    // ============================================================
+    //  SCREENS DEFINITION (контент)
+    // ============================================================
+    function buildScreens() {
+        return [
+            // 0: Welcome
+            { id: 'welcome', label: 'Welcome' },
+            // 1: Emoji check-in
+            { id: 'emoji', label: 'Emoji' },
+            // 2: Choose warm-up
+            { id: 'warmup', label: 'Warm-up' },
+            // 3: Question Wheel
+            { id: 'wheel', label: 'Wheel' },
+            // 4: Two Truths & a Lie
+            { id: 'truths', label: 'Truths' },
+            // 5: Picture Talk
+            { id: 'picture', label: 'Picture' },
+            // 6: Your English Story
+            { id: 'story', label: 'Story' },
+            // 7: Goal Builder
+            { id: 'goals', label: 'Goals' },
+            // 8: Mini Diagnostic
+            { id: 'diagnostic', label: 'Diagnostic' },
+            // 9: Vocabulary Mini Lesson
+            { id: 'vocab', label: 'Vocab' },
+            // 10: Matching Game
+            { id: 'matching', label: 'Matching' },
+            // 11: Make it yours
+            { id: 'makeit', label: 'Make it' },
+            // 12: Speaking Challenge
+            { id: 'challenge', label: 'Challenge' },
+            // 13: Rapid Fire
+            { id: 'rapid', label: 'Rapid' },
+            // 14: Listening Mini
+            { id: 'listening', label: 'Listening' },
+            // 15: Your English Snapshot
+            { id: 'snapshot', label: 'Snapshot' },
+            // 16: Personalized Summary
+            { id: 'summary', label: 'Summary' },
+            // 17: Student Feedback
+            { id: 'feedback', label: 'Feedback' },
+            // 18: What lessons look like
+            { id: 'lessons', label: 'Lessons' },
+            // 19: How lessons work
+            { id: 'how', label: 'How' },
+            // 20: Final Screen
+            { id: 'final', label: 'Final' }
+        ];
+    }
+
+    // ============================================================
+    //  RENDER ENGINE
+    // ============================================================
+    function renderScreen(index) {
+        const container = document.getElementById('screenContainer');
+        const screens = state.screens;
+        if (index < 0 || index >= screens.length) return;
+        const screenId = screens[index].id;
+
+        // строим html для экрана
+        let html = '';
+        html += `<div class="screen active" data-screen="${screenId}">`;
+        html += getScreenHTML(screenId);
+        html += `</div>`;
+        container.innerHTML = html;
+
+        // обновить навигацию
+        document.getElementById('stepIndicator').textContent = `${index+1} / ${screens.length}`;
+        document.getElementById('navCounter').textContent = `${index+1} / ${screens.length}`;
+        document.getElementById('prevBtn').disabled = (index === 0);
+        document.getElementById('nextBtn').disabled = (index === screens.length-1);
+        document.getElementById('progressFill').style.width = `${((index+1)/screens.length)*100}%`;
+
+        // инициализация интерактивов для экрана
+        initScreen(screenId);
+
+        // teacher notes
+        updateTeacherNotes(screenId);
+    }
+
+    function getScreenHTML(id) {
+        switch(id) {
+            case 'welcome': return welcomeScreen();
+            case 'emoji': return emojiScreen();
+            case 'warmup': return warmupScreen();
+            case 'wheel': return wheelScreen();
+            case 'truths': return truthsScreen();
+            case 'picture': return pictureScreen();
+            case 'story': return storyScreen();
+            case 'goals': return goalsScreen();
+            case 'diagnostic': return diagnosticScreen();
+            case 'vocab': return vocabScreen();
+            case 'matching': return matchingScreen();
+            case 'makeit': return makeitScreen();
+            case 'challenge': return challengeScreen();
+            case 'rapid': return rapidScreen();
+            case 'listening': return listeningScreen();
+            case 'snapshot': return snapshotScreen();
+            case 'summary': return summaryScreen();
+            case 'feedback': return feedbackScreen();
+            case 'lessons': return lessonsScreen();
+            case 'how': return howScreen();
+            case 'final': return finalScreen();
+            default: return '<p>Screen not found</p>';
+        }
+    }
+
+    // ---------- SCREEN BUILDERS ----------
+    function welcomeScreen() {
+        return `
+            <div class="card text-center" style="padding:2.5rem 2rem;">
+                <h2 style="font-size:3rem; margin-bottom:0.3rem;">Hi! Nice to meet you 👋</h2>
+                <p class="sub" style="font-size:1.2rem; max-width:600px; margin:0 auto 1.5rem;">
+                    Today isn’t a test. We’ll just talk, try a few things and find out what kind of English works best for you.
+                </p>
+                <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin:1rem 0;">
+                    <span style="font-size:2.5rem;">☕</span>
+                    <span style="font-size:2.5rem;">🎧</span>
+                    <span style="font-size:2.5rem;">📖</span>
+                    <span style="font-size:2.5rem;">📱</span>
+                    <span style="font-size:2.5rem;">💬</span>
+                </div>
+                <div style="margin-top:1.5rem;">
+                    <button class="btn btn-primary" style="font-size:1.2rem; padding:0.6rem 2.5rem;" onclick="goToScreen(1)">Let’s go →</button>
+                </div>
+                <div style="margin-top:1rem; font-size:0.85rem; color:#b39184;">English, but make it real ✦</div>
+            </div>
+        `;
+    }
+
+    function emojiScreen() {
+        const emojis = [
+            { emoji: '😴', label: 'sleepy' },
+            { emoji: '😌', label: 'relaxed' },
+            { emoji: '🙂', label: 'good' },
+            { emoji: '🤩', label: 'excited' },
+            { emoji: '😵', label: 'busy' },
+            { emoji: '🫠', label: 'surviving' }
+        ];
+        let html = `
+            <div class="card">
+                <h2>First things first… how are you feeling today?</h2>
+                <div class="emoji-grid">
+        `;
+        emojis.forEach(e => {
+            const sel = state.selectedEmoji === e.emoji ? 'selected' : '';
+            html += `<div class="emoji-item ${sel}" data-emoji="${e.emoji}" onclick="selectEmoji('${e.emoji}')">
+                ${e.emoji}<span class="emoji-label">${e.label}</span>
+            </div>`;
+        });
+        html += `</div>
+                <div id="emojiReasonBlock" style="${state.selectedEmoji ? 'display:block' : 'display:none'}">
+                    <p style="color:#5f4a3f;">Why? Tell me in 1–2 sentences.</p>
+                    <textarea id="emojiReason" rows="2" style="width:100%; border:1px solid #e6d5cb; border-radius:18px; padding:0.8rem; font-family:'Lato',sans-serif; background:#fdf9f6;" placeholder="Today I feel… because…">${state.emojiReason}</textarea>
+                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.4rem;">
+                        <span class="btn" onclick="document.getElementById('emojiReason').value='Today I feel… because…'">💡</span>
+                        <span class="btn" onclick="document.getElementById('emojiReason').value='My day was…'">💡</span>
+                        <span class="btn" onclick="document.getElementById('emojiReason').value='Right now I want…'">💡</span>
+                    </div>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_emoji">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Listen to sentence building, basic vocabulary, fluency, confidence.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function warmupScreen() {
+        return `
+            <div class="card">
+                <h2>Choose your starter</h2>
+                <p class="sub">Pick an activity to warm up</p>
+                <div class="grid-2">
+                    <div class="card" style="cursor:pointer; text-align:center; padding:1.5rem;" onclick="goToScreen(3)">
+                        <div style="font-size:3rem;">🎡</div>
+                        <h3>Question Wheel</h3>
+                        <p style="color:#7a645a;">Spin & answer</p>
+                    </div>
+                    <div class="card" style="cursor:pointer; text-align:center; padding:1.5rem;" onclick="goToScreen(4)">
+                        <div style="font-size:3rem;">🎭</div>
+                        <h3>Two Truths & a Lie</h3>
+                        <p style="color:#7a645a;">Find the lie</p>
+                    </div>
+                    <div class="card" style="cursor:pointer; text-align:center; padding:1.5rem; grid-column: span 2;" onclick="goToScreen(5)">
+                        <div style="font-size:3rem;">🖼️</div>
+                        <h3>Picture Talk</h3>
+                        <p style="color:#7a645a;">Describe what you see</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function wheelScreen() {
+        return `
+            <div class="card">
+                <h3>🎡 Question Wheel</h3>
+                <p class="sub">Spin and answer — each question only once</p>
+                <div class="wheel-container">
+                    <div class="wheel-canvas-wrap">
+                        <canvas id="wheelCanvas" width="600" height="600"></canvas>
+                    </div>
+                    <div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center;">
+                        <button class="btn btn-primary" id="spinBtn">SPIN</button>
+                        <button class="btn" id="resetWheelBtn">Reset wheel</button>
+                    </div>
+                    <div class="wheel-question-box" id="questionDisplay">
+                        <span class="placeholder">Press SPIN</span>
+                    </div>
+                    <div class="follow-up-btns" id="followUpBtns">
+                        <button class="btn" onclick="showFollowUp('Why?')">Why?</button>
+                        <button class="btn" onclick="showFollowUp('Tell me more')">Tell me more</button>
+                        <button class="btn" onclick="showFollowUp('Give me an example')">Give me an example</button>
+                        <button class="btn" onclick="showFollowUp('What about you?')">What about you?</button>
+                    </div>
+                    <div id="remainingCount" style="color:#7a645a; font-size:0.9rem;">Осталось: ${state.availableQuestions.length}</div>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_wheel">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Encourage full sentences.</li><li>Ask follow-up questions.</li></ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function truthsScreen() {
+        const facts = CONFIG.twoTruths.facts;
+        const lieIdx = CONFIG.twoTruths.lieIndex;
+        let html = `
+            <div class="card">
+                <h3>🎭 Two Truths & a Lie</h3>
+                <p class="sub">Which one is the lie?</p>
+                <div class="truth-cards" id="truthCards">
+        `;
+        facts.forEach((f, i) => {
+            const revealed = state.lieGuessed ? (i === lieIdx ? 'lie-reveal' : 'truth-reveal') : '';
+            html += `<div class="truth-card ${revealed}" data-idx="${i}" onclick="guessLie(${i})">${f}</div>`;
+        });
+        html += `</div>
+                <div id="truthResult" style="font-size:1.1rem; min-height:2.5rem; margin-top:0.5rem;">${state.lieGuessed ? '✅ You got it! The lie was “I’ve never watched Harry Potter.”' : ''}</div>
+                <hr style="border:0; border-top:1px solid #e6d5cb; margin:1rem 0;">
+                <p><strong>Your turn.</strong> Tell me 3 facts about yourself.</p>
+                <div style="display:flex; flex-direction:column; gap:0.5rem; max-width:400px;">
+                    <input type="text" id="fact1" placeholder="Fact 1" value="${state.userFacts[0]}" style="padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                    <input type="text" id="fact2" placeholder="Fact 2" value="${state.userFacts[1]}" style="padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                    <input type="text" id="fact3" placeholder="Fact 3" value="${state.userFacts[2]}" style="padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                </div>
+                <button class="btn btn-primary" style="margin-top:0.8rem;" onclick="saveUserFacts()">Done</button>
+                <div class="teacher-notes" id="teacherNotes_truths">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Listen for Past Simple / Present Perfect.</li><li>Approx level indicator.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function pictureScreen() {
+        const questions = [
+            "What’s happening here?",
+            "Where do you think they are?",
+            "How do you think they feel?",
+            "Would you like to be there? Why / why not?",
+            "What do you think happened 10 minutes before this photo?"
+        ];
+        const step = state.picStep || 0;
+        let html = `
+            <div class="card">
+                <h3>🖼️ Picture Talk</h3>
+                <p class="sub">Describe what you see</p>
+                <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&h=400&fit=crop&crop=center" alt="lifestyle photo" />
+                <div class="pic-question" id="picQuestion">${questions[step] || 'No more questions'}</div>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem;">
+                    <button class="btn" onclick="nextPicQuestion()">Next →</button>
+                    <button class="btn" onclick="givePicWord()">Give me a word</button>
+                    <span id="picWord" style="color:#7a645a; font-style:italic;"></span>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_picture">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Encourage descriptive language.</li><li>Check past tense, conditionals.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function storyScreen() {
+        return `
+            <div class="card">
+                <h3>Tell me about you + English</h3>
+                <div style="margin:0.8rem 0;">
+                    <p><strong>How long have you been learning English?</strong></p>
+                    <div class="inline-flex">
+                        ${['< 1 year','1–3 years','3–5 years','5+ years','on and off forever 😅'].map(o => `<span class="btn" onclick="selectStoryOption('duration','${o}')">${o}</span>`).join('')}
+                    </div>
+                </div>
+                <div style="margin:0.8rem 0;">
+                    <p><strong>Where do you meet English most often? (choose any)</strong></p>
+                    <div class="inline-flex">
+                        ${['🎬 films & series','💻 work','✈️ travel','📚 studies','📱 social media','🎮 games','🎵 music','🗣️ friends / people online'].map(o => `<span class="btn" onclick="toggleStoryMulti('meet','${o}')">${o}</span>`).join('')}
+                    </div>
+                </div>
+                <div style="margin:0.8rem 0;">
+                    <p><strong>What usually happens when you need to speak English?</strong></p>
+                    <div class="inline-flex">
+                        ${['😎 “Let’s go.”','🙂 “I can manage.”','😬 “Give me a second…”','🫣 “I suddenly forget every word”'].map(o => `<span class="btn" onclick="selectStoryOption('reaction','${o}')">${o}</span>`).join('')}
+                    </div>
+                </div>
+                <div style="margin:0.8rem 0;">
+                    <p><strong>What did you like about your previous English lessons?</strong></p>
+                    <input type="text" id="storyLiked" placeholder="e.g. conversation practice" style="width:100%; padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                </div>
+                <div style="margin:0.8rem 0;">
+                    <p><strong>What definitely DIDN’T work for you?</strong></p>
+                    <input type="text" id="storyDisliked" placeholder="e.g. too much grammar" style="width:100%; padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                </div>
+                <div class="teacher-notes" id="teacherNotes_story">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Note student's learning history.</li><li>Identify pain points.</li></ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function goalsScreen() {
+        const goals = ['💼 for work','✈️ for travel','🎓 for studies','🌍 for moving abroad','💬 for everyday communication','🧠 for myself / personal growth','📝 for an exam'];
+        const skills = ['Speaking','Listening','Vocabulary','Grammar','Pronunciation','Reading','Writing'];
+        let html = `
+            <div class="card">
+                <h3>Okay. Why English?</h3>
+                <p class="sub">“For myself” is totally valid — let’s just make it more specific.</p>
+                <p><strong>I learn English…</strong></p>
+                <div class="inline-flex">
+                    ${goals.map(g => `<span class="btn" onclick="toggleGoal('${g}')">${g}</span>`).join('')}
+                </div>
+                <div style="margin-top:1rem;">
+                    <p><strong>I want more… (drag sliders to rank)</strong></p>
+                    <div class="slider-group">
+                        ${skills.map(s => `
+                            <div class="slider-row">
+                                <label>${s}</label>
+                                <input type="range" min="1" max="5" value="${state.goalSliders[s] || 3}" oninput="updateSlider('${s}', this.value)" />
+                                <span>${state.goalSliders[s] || 3}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div id="goalSummary" style="background:#fdf9f6; border-radius:20px; padding:0.8rem 1.5rem; margin-top:1rem;">
+                    <strong>Your English goal:</strong> <span id="goalText">${buildGoalText()}</span>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_goals">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Confirm goals with student.</li><li>Use this to personalize.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function diagnosticScreen() {
+        const tasks = CONFIG.diagnosticTasks;
+        let html = `
+            <div class="card">
+                <h3>Let’s try something</h3>
+                <p class="sub">No grades. I just want to see what feels easy and what we can improve.</p>
+        `;
+        tasks.forEach((t, idx) => {
+            const selected = state.diagAnswers[idx] !== undefined ? state.diagAnswers[idx] : -1;
+            html += `<div style="margin-bottom:1.5rem; background:#fdf9f6; border-radius:20px; padding:0.8rem 1.2rem;">
+                <p><strong>${t.q}</strong></p>
+                <div class="inline-flex">
+                    ${t.options.map((o, oi) => `<span class="btn ${selected===oi ? 'btn-primary' : ''}" onclick="answerDiagnostic(${idx}, ${oi})">${o}</span>`).join('')}
+                </div>
+                ${selected !== -1 ? `<div style="margin-top:0.4rem; color:#5f4a3f;">${t.explain}</div>` : ''}
+            </div>`;
+        });
+        // Task 4: free answer
+        html += `
+                <div style="margin-bottom:1rem;">
+                    <p><strong>Complete naturally: I used to ______, but now ______.</strong></p>
+                    <input type="text" id="diagFree" placeholder="e.g. I used to play piano, but now I don't have time." style="width:100%; padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <p><strong>Upgrade this sentence: “The movie was very good.”</strong> (make it more interesting)</p>
+                    <input type="text" id="diagUpgrade" placeholder="e.g. The movie was brilliant." style="width:100%; padding:0.6rem 1rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                    <button class="btn" onclick="document.getElementById('diagUpgrade').value='brilliant, surprisingly good, worth watching, entertaining, better than I expected'">Give me some words</button>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_diagnostic">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Observe grammar and vocabulary range.</li><li>Note confidence.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function vocabScreen() {
+        const pairs = CONFIG.vocabularyPairs;
+        let html = `
+            <div class="card">
+                <h3>How to stop saying “very” all the time</h3>
+                <p class="sub">Click a card to see the upgrade</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+        `;
+        pairs.forEach((p, i) => {
+            html += `<div class="card" style="cursor:pointer; text-align:center; padding:0.8rem;" onclick="revealVocab(${i})">
+                <span id="vocab_${i}">${p.base}</span>
+                <span style="display:block; font-size:0.8rem; color:#7a645a; margin-top:0.2rem;">→ click</span>
+            </div>`;
+        });
+        html += `</div>
+                <div class="teacher-notes" id="teacherNotes_vocab">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Encourage using upgraded words.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function matchingScreen() {
+        const pairs = CONFIG.vocabularyPairs.slice(0, 4);
+        const leftItems = pairs.map(p => p.base);
+        const rightItems = pairs.map(p => p.upgrade);
+        // shuffle right
+        const shuffledRight = [...rightItems].sort(() => Math.random() - 0.5);
+        let html = `
+            <div class="card">
+                <h3>Match them</h3>
+                <p class="sub">Drag the right side to match the left</p>
+                <div class="match-area" id="matchArea">
+                    <div class="match-col" id="matchLeft">
+                        ${leftItems.map((item, i) => `<div class="match-item" data-pair="${i}" data-type="left">${item}</div>`).join('')}
+                    </div>
+                    <div class="match-col" id="matchRight">
+                        ${shuffledRight.map((item, i) => `<div class="match-item" data-pair="${rightItems.indexOf(item)}" data-type="right" draggable="true">${item}</div>`).join('')}
+                    </div>
+                </div>
+                <div id="matchResult" style="margin-top:0.5rem; color:#6f9e7a;"></div>
+                <div class="teacher-notes" id="teacherNotes_matching">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Check if student can connect synonyms.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function makeitScreen() {
+        return `
+            <div class="card">
+                <h3>Now make it yours</h3>
+                <p class="sub">Choose 2 and answer aloud</p>
+                <ul style="list-style:none; padding:0;">
+                    <li style="padding:0.5rem 0; border-bottom:1px solid #e6d5cb;">The last time I was exhausted was…</li>
+                    <li style="padding:0.5rem 0; border-bottom:1px solid #e6d5cb;">A place I think is stunning is…</li>
+                    <li style="padding:0.5rem 0; border-bottom:1px solid #e6d5cb;">I was starving when…</li>
+                    <li style="padding:0.5rem 0;">A place that is always packed is…</li>
+                </ul>
+                <div class="teacher-notes" id="teacherNotes_makeit">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Encourage use of new vocabulary.</li></ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function challengeScreen() {
+        const images = ['🌊 seaside escape', '🏙️ New York weekend', '🏔️ cabin in the mountains'];
+        let html = `
+            <div class="card">
+                <h3>Quick challenge</h3>
+                <p class="sub">Choose a destination</p>
+                <div class="inline-flex">
+                    ${images.map((img, i) => `<span class="btn ${state.challengeChoice===i?'btn-primary':''}" onclick="selectChallenge(${i})">${img}</span>`).join('')}
+                </div>
+                ${state.challengeChoice !== null ? `
+                    <div style="margin-top:1rem; background:#fdf9f6; border-radius:20px; padding:1rem;">
+                        <p><strong>You have €1000 and 4 days. Plan your trip.</strong></p>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                            <input type="text" placeholder="Where are you staying?" style="padding:0.5rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                            <input type="text" placeholder="What are you doing?" style="padding:0.5rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                            <input type="text" placeholder="What are you eating?" style="padding:0.5rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                            <input type="text" placeholder="Who are you going with?" style="padding:0.5rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6;">
+                            <input type="text" placeholder="What’s one thing you WON’T do?" style="padding:0.5rem; border-radius:40px; border:1px solid #e6d5cb; background:#fdf9f6; grid-column: span 2;">
+                        </div>
+                        <div style="display:flex; gap:0.8rem; margin-top:0.8rem;">
+                            <button class="btn" onclick="alert('Timer started! (simulated)')">▶ Start timer (60s)</button>
+                            <button class="btn" onclick="showBonusChallenge()">🎲 Bonus challenge</button>
+                            <span id="bonusDisplay" style="color:#7a645a;"></span>
+                        </div>
+                    </div>
+                ` : ''}
+                <div class="teacher-notes" id="teacherNotes_challenge">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Observe fluency and creativity.</li><li>If too easy, press "Level up" in teacher mode.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function rapidScreen() {
+        const pairs = ['Tea / coffee?','City / nature?','Texting / calling?','Summer / winter?','Book / movie?','Early bird / night owl?','Plan everything / improvise?','Stay in / go out?'];
+        const idx = state.rapidIndex || 0;
+        let html = `
+            <div class="card">
+                <h3>Don’t think. Just answer.</h3>
+                <p class="sub" id="rapidQuestion">${pairs[idx] || 'Done!'}</p>
+                <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+                    <button class="btn" onclick="rapidAnswer('left')">← left</button>
+                    <button class="btn" onclick="rapidAnswer('right')">right →</button>
+                </div>
+                ${idx >= pairs.length ? `<div style="margin-top:1rem;">Okay, I think I know you a little better now 👀</div>` : ''}
+                <div class="teacher-notes" id="teacherNotes_rapid">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Notice hesitation / confidence.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function listeningScreen() {
+        return `
+            <div class="card">
+                <h3>🎧 Listening</h3>
+                <p class="sub">Listen and answer</p>
+                <button class="btn btn-primary" onclick="playListening()">▶ Listen</button>
+                <div style="margin-top:0.8rem;">
+                    <p><strong>What did they decide to do?</strong></p>
+                    <div class="inline-flex">
+                        <span class="btn" onclick="answerListening('go out')">Go out</span>
+                        <span class="btn" onclick="answerListening('stay in')">Stay in</span>
+                        <span class="btn" onclick="answerListening('not sure')">Not sure</span>
+                    </div>
+                    <div id="listeningResult" style="margin-top:0.4rem;"></div>
+                </div>
+                <div style="margin-top:0.8rem;">
+                    <button class="btn" onclick="showTranscript()">Show transcript</button>
+                    <div id="transcript" style="display:none; background:#fdf9f6; border-radius:16px; padding:0.8rem; margin-top:0.4rem;">
+                        "${CONFIG.listeningScript}"
+                        <br><strong>Expressions:</strong> "I'm up for it." "It's not really my thing." "Why don't we…?"
+                    </div>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_listening">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Check comprehension.</li></ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function snapshotScreen() {
+        const levels = ['A1','A2','B1','B2','C1'];
+        const skills = ['Speaking','Vocabulary','Grammar','Listening'];
+        const strengths = state.snapshotStrengths || ['good basic grammar', 'willing to speak'];
+        const weaknesses = state.snapshotWeaknesses || ['speaking confidence', 'active vocabulary'];
+        let html = `
+            <div class="card">
+                <h3>Your English Snapshot</h3>
+                <div class="snapshot-grid">
+                    <div class="snapshot-card">
+                        <div class="label">Estimated level</div>
+                        <div class="value">
+                            <select id="levelSelect" onchange="state.snapshotLevel=this.value">
+                                ${levels.map(l => `<option value="${l}" ${state.snapshotLevel===l?'selected':''}>${l}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    ${skills.map(s => `
+                        <div class="snapshot-card">
+                            <div class="label">${s}</div>
+                            <input type="range" min="1" max="5" value="${state.snapshotSkills[s] || 3}" oninput="state.snapshotSkills['${s}']=parseInt(this.value); document.getElementById('skillVal_${s}').textContent=this.value;" />
+                            <span id="skillVal_${s}">${state.snapshotSkills[s] || 3}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="margin-top:1rem;">
+                    <div><strong>Already strong 💪</strong> <span class="btn" onclick="addTag('strength')">+</span></div>
+                    <div class="tag-group" id="strengthTags">
+                        ${strengths.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                    <div style="margin-top:0.8rem;"><strong>Let’s work on 🚀</strong> <span class="btn" onclick="addTag('weakness')">+</span></div>
+                    <div class="tag-group" id="weaknessTags">
+                        ${weaknesses.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_snapshot">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Adjust level and skills based on observation.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function summaryScreen() {
+        const text = `“You already understand English quite well and can communicate your ideas. The main thing holding you back isn’t grammar — it’s speaking practice and active vocabulary. I’d focus our lessons on helping you speak without translating everything in your head, expanding the vocabulary you actually use, and getting you more comfortable with real spoken English.”`;
+        return `
+            <div class="card">
+                <h3>What I noticed today</h3>
+                <div style="background:#fdf9f6; border-radius:20px; padding:1rem 1.5rem; font-style:italic; color:#5f4a3f;">
+                    ${text}
+                </div>
+                <div style="margin-top:1rem;">
+                    <button class="btn btn-primary" onclick="navigator.clipboard.writeText(\`${text}\`).then(()=>alert('Copied!'))">📋 Copy feedback</button>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_summary">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Edit the text if needed.</li></ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function feedbackScreen() {
+        const qs = [
+            { id: 'feel', label: 'How did you feel speaking English today?', options: ['😊 Comfortable','🙂 Mostly comfortable','😅 A little nervous','🫠 My brain left the chat'] },
+            { id: 'tasks', label: 'The tasks were…', options: ['too easy','just right','sometimes challenging','quite difficult'] },
+            { id: 'hardest', label: 'What was hardest?', options: ['speaking','listening','vocabulary','grammar','understanding questions'] },
+            { id: 'enjoy', label: 'What did you enjoy most?', options: ['conversation','games','vocabulary','visual tasks','explanations','the overall format'] },
+            { id: 'more', label: 'In future lessons I’d like more…', options: ['speaking','videos / listening','grammar','vocabulary','real-life English','work/study English','exam preparation'] }
+        ];
+        let html = `
+            <div class="card">
+                <h3>Your turn — how did it feel?</h3>
+        `;
+        qs.forEach(q => {
+            const selected = state.studentFeedback[q.id] || '';
+            html += `<div style="margin-bottom:1rem;">
+                <p><strong>${q.label}</strong></p>
+                <div class="inline-flex">
+                    ${q.options.map(o => `<span class="btn ${selected===o?'btn-primary':''}" onclick="state.studentFeedback['${q.id}']='${o}'; renderScreen(${state.currentScreen});">${o}</span>`).join('')}
+                </div>
+            </div>`;
+        });
+        html += `
+                <div style="margin-top:1rem; text-align:center; color:#6f9e7a; font-size:1.2rem;">Thank you ✨</div>
+                <div class="teacher-notes" id="teacherNotes_feedback">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Review feedback with student.</li></ul>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+
+    function lessonsScreen() {
+        return `
+            <div class="card">
+                <h3>So… what happens next?</h3>
+                <div style="display:flex; flex-direction:column; gap:0.6rem; margin:1rem 0; font-size:1.1rem;">
+                    <div>YOUR GOAL → PERSONAL PLAN → REAL ENGLISH → PRACTICE → FEEDBACK → PROGRESS</div>
+                </div>
+                <p style="color:#5f4a3f;">Lessons built around your goals — not a textbook chapter just because it’s next.</p>
+                <div class="grid-2" style="margin-top:1rem;">
+                    <div class="card" style="text-align:center;">🗣️ lots of speaking</div>
+                    <div class="card" style="text-align:center;">🎧 real-life listening</div>
+                    <div class="card" style="text-align:center;">🧠 vocabulary you’ll actually use</div>
+                    <div class="card" style="text-align:center;">🎬 videos, articles & modern materials</div>
+                    <div class="card" style="text-align:center;">📝 clear grammar when you need it</div>
+                    <div class="card" style="text-align:center;">📈 regular feedback & progress tracking</div>
+                </div>
+            </div>
+        `;
+    }
+
+    function howScreen() {
+        return `
+            <div class="card">
+                <h3>How lessons work</h3>
+                <div style="background:#fdf9f6; border-radius:20px; padding:1rem 1.5rem; margin:1rem 0;">
+                    <p><strong>Individual lessons</strong></p>
+                    <p>⏱️ 60 min</p>
+                    <p>💻 Online</p>
+                    <p>📋 Personal learning plan</p>
+                    <p>📚 All materials included</p>
+                    <p>📝 Homework + feedback</p>
+                </div>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+                    <div class="card" style="text-align:center;">${CONFIG.lessonPrice}</div>
+                    <div class="card" style="text-align:center;">${CONFIG.packagePrice}</div>
+                </div>
+                <div class="teacher-notes" id="teacherNotes_how">
+                    <strong>👩‍🏫 Teacher notes:</strong>
+                    <ul><li>Adjust prices in CONFIG.</li></ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function finalScreen() {
+        return `
+            <div class="card text-center" style="padding:2.5rem 2rem;">
+                <h2 style="font-size:2.5rem;">That’s it — you survived your first English lesson with me 🎉</h2>
+                <p style="font-size:1.4rem; color:#7a645a; margin:1rem 0;">And yes, your English is probably better than you think.</p>
+                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="goToScreen(15)">See my feedback</button>
+                    <button class="btn" onclick="alert('Let’s continue! Contact me for next lesson.')">Let’s continue →</button>
+                </div>
+                <div style="margin-top:2rem; font-family:'Playfair Display',serif; font-size:1.5rem; color:#b39184;">See you in English.</div>
+                <div style="margin-top:1rem; font-size:3rem;">📸</div>
+                <div style="font-size:0.9rem; color:#b39184;">✨ you did it</div>
+            </div>
+        `;
+    }
+
+    // ============================================================
+    //  INIT SCREENS (интерактивы)
+    // ============================================================
+    function initScreen(id) {
+        switch(id) {
+            case 'wheel': initWheel(); break;
+            case 'matching': initMatching(); break;
+            case 'rapid': updateRapid(); break;
+            case 'challenge': break;
+            case 'snapshot': break;
+            default: break;
+        }
+        // обновить teacher notes
+        updateTeacherNotes(id);
+    }
+
+    // ---------- WHEEL ----------
+    let wheelAnimId = null;
+    let isSpinning = false;
+
+    function initWheel() {
+        const canvas = document.getElementById('wheelCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        drawWheel(ctx, canvas, state.availableQuestions, state.wheelRotation);
+        document.getElementById('spinBtn').onclick = spinWheel;
+        document.getElementById('resetWheelBtn').onclick = resetWheel;
+        document.getElementById('remainingCount').textContent = `Осталось: ${state.availableQuestions.length}`;
+    }
+
+    function drawWheel(ctx, canvas, questions, rotation) {
+        const count = questions.length;
+        const w = canvas.width, h = canvas.height;
+        const cx = w/2, cy = h/2, r = 250;
+        ctx.clearRect(0, 0, w, h);
+        if (count === 0) {
+            ctx.font = '28px Lato';
+            ctx.fillStyle = '#a67b6b';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🎉 all done!', cx, cy);
+            return;
+        }
+        const colors = ['#f7d8d0','#e8d0c4','#dcc4b8','#f0ddd4','#e6cfc2','#dcc0b0','#f5dcd0','#e8d0c4','#dcc4b8','#f0ddd4','#e6cfc2','#dcc0b0'];
+        const step = (2*Math.PI)/count;
+        for (let i=0; i<count; i++) {
+            const start = i*step + rotation;
+            const end = start + step;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, r, start, end);
+            ctx.closePath();
+            ctx.fillStyle = colors[i%colors.length];
+            ctx.fill();
+            ctx.strokeStyle = '#fff5f0';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            // номер
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(start + step/2);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = 'bold 20px Lato';
+            ctx.fillStyle = '#6f5a50';
+            ctx.fillText(i+1, r*0.65, 0);
+            ctx.restore();
+        }
+        // центр
+        ctx.beginPath();
+        ctx.arc(cx, cy, 35, 0, 2*Math.PI);
+        ctx.fillStyle = '#f5e4db';
+        ctx.fill();
+        ctx.strokeStyle = '#dbb8ab';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        // стрелка
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(rotation);
+        ctx.beginPath();
+        ctx.moveTo(0, -r-10);
+        ctx.lineTo(-14, -r+20);
+        ctx.lineTo(14, -r+20);
+        ctx.closePath();
+        ctx.fillStyle = '#dbb8ab';
+        ctx.fill();
+        ctx.restore();
+        // оставшиеся
+        document.getElementById('remainingCount').textContent = `Осталось: ${count}`;
+        if (count === 0) {
+            document.getElementById('spinBtn').disabled = true;
+            document.getElementById('questionDisplay').innerHTML = '<span style="color:#a67b6b;">🎉 You’ve answered them all!</span>';
+        } else {
+            document.getElementById('spinBtn').disabled = false;
+        }
+    }
+
+    function spinWheel() {
+        if (isSpinning) return;
+        const questions = state.availableQuestions;
+        if (questions.length === 0) { alert('All questions used! Reset.'); return; }
+        isSpinning = true;
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const count = questions.length;
+        const step = (2*Math.PI)/count;
+        const targetIdx = Math.floor(Math.random() * count);
+        const targetAngle = targetIdx * step + step/2;
+        const extraSpins = 5 + Math.random()*4;
+        const totalRotation = extraSpins * 2*Math.PI + targetAngle;
+        const startRotation = state.wheelRotation;
+        const duration = 3000 + Math.random()*1200;
+        const startTime = performance.now();
+
+        function animate(time) {
+            const elapsed = time - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = 1 - Math.pow(1-progress, 3);
+            const current = startRotation + totalRotation * ease;
+            state.wheelRotation = current;
+            drawWheel(ctx, canvas, questions, current);
+            if (progress < 1) {
+                wheelAnimId = requestAnimationFrame(animate);
+            } else {
+                state.wheelRotation = startRotation + totalRotation;
+                drawWheel(ctx, canvas, questions, state.wheelRotation);
+                // выбрать вопрос
+                const q = questions[targetIdx];
+                state.lastWheelQuestion = q;
+                document.getElementById('questionDisplay').innerHTML = `<span>${q}</span>`;
+                // удалить вопрос
+                state.availableQuestions.splice(targetIdx, 1);
+                drawWheel(ctx, canvas, state.availableQuestions, state.wheelRotation);
+                isSpinning = false;
+                document.getElementById('spinBtn').disabled = false;
+                document.getElementById('remainingCount').textContent = `Осталось: ${state.availableQuestions.length}`;
+                if (state.availableQuestions.length === 0) {
+                    document.getElementById('questionDisplay').innerHTML = '<span style="color:#a67b6b;">🎉 You’ve answered them all!</span>';
+                }
+            }
+        }
+        wheelAnimId = requestAnimationFrame(animate);
+    }
+
+    function resetWheel() {
+        if (wheelAnimId) { cancelAnimationFrame(wheelAnimId); wheelAnimId = null; }
+        state.availableQuestions = [...CONFIG.wheelQuestions];
+        state.wheelRotation = 0;
+        isSpinning = false;
+        const canvas = document.getElementById('wheelCanvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            drawWheel(ctx, canvas, state.availableQuestions, 0);
+        }
+        document.getElementById('questionDisplay').innerHTML = '<span class="placeholder">Press SPIN</span>';
+        document.getElementById('remainingCount').textContent = `Осталось: ${state.availableQuestions.length}`;
+        document.getElementById('spinBtn').disabled = false;
+    }
+
+    function showFollowUp(text) {
+        alert(`💬 Follow-up: ${text}`);
+    }
+
+    // ---------- TWO TRUTHS ----------
+    function guessLie(idx) {
+        const lieIdx = CONFIG.twoTruths.lieIndex;
+        if (state.lieGuessed) return;
+        state.lieGuessed = true;
+        const cards = document.querySelectorAll('.truth-card');
+        cards.forEach((el, i) => {
+            if (i === lieIdx) el.classList.add('lie-reveal');
+            else el.classList.add('truth-reveal');
+        });
+        document.getElementById('truthResult').textContent = idx === lieIdx ? '✅ You got it! 🎉' : `Almost! The lie was “${CONFIG.twoTruths.facts[lieIdx]}”.`;
+    }
+
+    function saveUserFacts() {
+        state.userFacts = [
+            document.getElementById('fact1').value,
+            document.getElementById('fact2').value,
+            document.getElementById('fact3').value
+        ];
+        alert('Facts saved!');
+    }
+
+    // ---------- PICTURE TALK ----------
+    function nextPicQuestion() {
+        state.picStep = (state.picStep || 0) + 1;
+        if (state.picStep > 4) state.picStep = 4;
+        renderScreen(state.currentScreen);
+    }
+    function givePicWord() {
+        const words = ['awkward','crowded','spontaneous','exhausted','cozy','overrated'];
+        const w = words[Math.floor(Math.random()*words.length)];
+        document.getElementById('picWord').textContent = `✨ ${w}`;
+    }
+
+    // ---------- STORY ----------
+    function selectStoryOption(key, val) {
+        // просто сохраняем в state
+        if (!state.story) state.story = {};
+        state.story[key] = val;
+        // визуально выделим
+        document.querySelectorAll(`[onclick*="selectStoryOption('${key}")`).forEach(el => {
+            el.classList.toggle('btn-primary');
+        });
+    }
+    function toggleStoryMulti(key, val) {
+        if (!state.storyMulti) state.storyMulti = {};
+        if (!state.storyMulti[key]) state.storyMulti[key] = [];
+        const arr = state.storyMulti[key];
+        const idx = arr.indexOf(val);
+        if (idx > -1) arr.splice(idx, 1);
+        else arr.push(val);
+        // визуально
+        document.querySelectorAll(`[onclick*="toggleStoryMulti('${key}")`).forEach(el => {
+            if (arr.includes(val)) el.classList.add('btn-primary');
+            else el.classList.remove('btn-primary');
+        });
+    }
+
+    // ---------- GOALS ----------
+    function toggleGoal(g) {
+        const idx = state.goals.indexOf(g);
+        if (idx > -1) state.goals.splice(idx, 1);
+        else state.goals.push(g);
+        renderScreen(state.currentScreen);
+        document.getElementById('goalText').textContent = buildGoalText();
+    }
+    function updateSlider(s, val) {
+        state.goalSliders[s] = parseInt(val);
+        document.getElementById('goalText').textContent = buildGoalText();
+    }
+    function buildGoalText() {
+        const g = state.goals;
+        const top = Object.entries(state.goalSliders).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+        let txt = 'You want to ';
+        if (g.length) txt += g.join(', ') + '. ';
+        if (top.length) txt += `Focus on: ${top.join(', ')}.`;
+        return txt || 'Select your goals.';
+    }
+
+    // ---------- DIAGNOSTIC ----------
+    function answerDiagnostic(idx, val) {
+        state.diagAnswers[idx] = val;
+        renderScreen(state.currentScreen);
+    }
+
+    // ---------- VOCAB ----------
+    function revealVocab(idx) {
+        const pair = CONFIG.vocabularyPairs[idx];
+        document.getElementById(`vocab_${idx}`).textContent = `${pair.base} → ${pair.upgrade}`;
+    }
+
+    // ---------- MATCHING ----------
+    function initMatching() {
+        const items = document.querySelectorAll('.match-item[data-type="right"]');
+        items.forEach(el => {
+            el.addEventListener('dragstart', handleDragStart);
+            el.addEventListener('dragend', handleDragEnd);
+        });
+        document.querySelectorAll('.match-item[data-type="left"]').forEach(el => {
+            el.addEventListener('dragover', handleDragOver);
+            el.addEventListener('drop', handleDrop);
+        });
+    }
+    let draggedId = null;
+    function handleDragStart(e) {
+        draggedId = e.target.dataset.pair;
+        e.target.classList.add('dragging');
+    }
+    function handleDragEnd(e) {
+        e.target.classList.remove('dragging');
+    }
+    function handleDragOver(e) {
+        e.preventDefault();
+    }
+    function handleDrop(e) {
+        e.preventDefault();
+        const targetPair = e.target.dataset.pair;
+        if (draggedId === targetPair) {
+            // match!
+            e.target.classList.add('matched');
+            document.querySelector(`.match-item[data-pair="${draggedId}"][data-type="right"]`).classList.add('matched');
+            document.getElementById('matchResult').textContent = '✅ Matched! Nice!';
+        } else {
+            document.getElementById('matchResult').textContent = '❌ Try again.';
+        }
+    }
+
+    // ---------- RAPID ----------
+    function updateRapid() {
+        const pairs = ['Tea / coffee?','City / nature?','Texting / calling?','Summer / winter?','Book / movie?','Early bird / night owl?','Plan everything / improvise?','Stay in / go out?'];
+        const idx = state.rapidIndex || 0;
+        if (idx < pairs.length) {
+            document.getElementById('rapidQuestion').textContent = pairs[idx];
+        } else {
+            document.getElementById('rapidQuestion').textContent = 'Done!';
+        }
+    }
+    function rapidAnswer(side) {
+        state.rapidIndex = (state.rapidIndex || 0) + 1;
+        renderScreen(state.currentScreen);
+    }
+
+    // ---------- LISTENING ----------
+    function playListening() {
+        const utterance = new SpeechSynthesisUtterance(CONFIG.listeningScript);
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
+    }
+    function answerListening(ans) {
+        const correct = 'stay in';
+        document.getElementById('listeningResult').textContent = ans === correct ? '✅ Correct! They decided to stay in.' : '❌ They decided to stay in.';
+    }
+    function showTranscript() {
+        const el = document.getElementById('transcript');
+        el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // ---------- CHALLENGE ----------
+    function selectChallenge(idx) {
+        state.challengeChoice = idx;
+        renderScreen(state.currentScreen);
+    }
+    function showBonusChallenge() {
+        const bonuses = [
+            'Your flight is cancelled.',
+            'It starts raining every day.',
+            'Your hotel loses your reservation.',
+            'You lose your phone.',
+            'Someone gives you two free concert tickets.',
+            'You meet your favourite celebrity.'
+        ];
+        const b = bonuses[Math.floor(Math.random()*bonuses.length)];
+        document.getElementById('bonusDisplay').textContent = '🎲 ' + b;
+    }
+
+    // ---------- SNAPSHOT ----------
+    function addTag(type) {
+        const tag = prompt('Enter tag:');
+        if (!tag) return;
+        if (type === 'strength') {
+            state.snapshotStrengths.push(tag);
+        } else {
+            state.snapshotWeaknesses.push(tag);
+        }
+        renderScreen(state.currentScreen);
+    }
+
+    // ---------- EMOJI ----------
+    function selectEmoji(emoji) {
+        state.selectedEmoji = emoji;
+        renderScreen(state.currentScreen);
+        document.getElementById('emojiReasonBlock').style.display = 'block';
+    }
+
+    // ---------- TEACHER NOTES ----------
+    function updateTeacherNotes(screenId) {
+        const notes = document.querySelectorAll('.teacher-notes');
+        notes.forEach(el => {
+            if (state.teacherMode) el.classList.add('visible');
+            else el.classList.remove('visible');
+        });
+    }
+
+    // ============================================================
+    //  NAVIGATION
+    // ============================================================
+    function goToScreen(index) {
+        if (index < 0 || index >= state.screens.length) return;
+        state.currentScreen = index;
+        renderScreen(index);
+        // сохранить состояние
+        saveState();
+    }
+
+    // ============================================================
+    //  STATE PERSISTENCE (localStorage)
+    // ============================================================
+    function saveState() {
+        try {
+            localStorage.setItem('lessonState', JSON.stringify(state));
+        } catch(e) {}
+    }
+    function loadState() {
+        try {
+            const data = localStorage.getItem('lessonState');
+            if (data) {
+                const parsed = JSON.parse(data);
+                Object.assign(state, parsed);
+                // восстановить некоторые массивы
+                if (!state.availableQuestions || state.availableQuestions.length === 0) {
+                    state.availableQuestions = [...CONFIG.wheelQuestions];
+                }
+                if (!state.goalSliders) {
+                    state.goalSliders = { Speaking: 3, Listening: 3, Vocabulary: 3, Grammar: 3, Pronunciation: 3, Reading: 3, Writing: 3 };
+                }
+                if (!state.snapshotStrengths) state.snapshotStrengths = ['good basic grammar', 'willing to speak'];
+                if (!state.snapshotWeaknesses) state.snapshotWeaknesses = ['speaking confidence', 'active vocabulary'];
+                return true;
+            }
+        } catch(e) {}
+        return false;
+    }
+
+    // ============================================================
+    //  INIT APP
+    // ============================================================
+    function initApp() {
+        // загружаем состояние
+        loadState();
+        // screens
+        state.screens = buildScreens();
+        state.totalScreens = state.screens.length;
+        if (state.currentScreen >= state.totalScreens) state.currentScreen = 0;
+        // teacher mode toggle
+        document.getElementById('teacherToggle').addEventListener('click', function() {
+            state.teacherMode = !state.teacherMode;
+            this.classList.toggle('active');
+            updateTeacherNotes(state.screens[state.currentScreen].id);
+        });
+        if (state.teacherMode) {
+            document.getElementById('teacherToggle').classList.add('active');
+        }
+        // навигация
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (state.currentScreen > 0) goToScreen(state.currentScreen - 1);
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (state.currentScreen < state.screens.length - 1) goToScreen(state.currentScreen + 1);
+        });
+        // render первый экран
+        renderScreen(state.currentScreen);
+        // сохраняем состояние при изменениях
+        window.addEventListener('beforeunload', saveState);
+    }
+
+    // запуск
+    document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>
