@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -501,8 +502,8 @@
     <!-- header -->
     <div class="header">
         <div class="progress-wrap">
-            <span class="step-indicator" id="stepIndicator">1 / 24</span>
-            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill" style="width:4%"></div></div>
+            <span class="step-indicator" id="stepIndicator">1 / 19</span>
+            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
         </div>
         <button class="teacher-toggle" id="teacherToggle">👩‍🏫 Teacher mode</button>
     </div>
@@ -515,7 +516,7 @@
     <!-- навигация -->
     <div class="nav-bar">
         <button class="nav-btn" id="prevBtn" disabled>← Back</button>
-        <span style="color:#7a645a; font-size:0.9rem;" id="navCounter">1 / 24</span>
+        <span style="color:#7a645a; font-size:0.9rem;" id="navCounter">1 / 19</span>
         <button class="nav-btn primary" id="nextBtn">Next →</button>
     </div>
 </div>
@@ -611,51 +612,28 @@
     };
 
     // ============================================================
-    //  SCREENS DEFINITION (контент)
+    //  SCREENS DEFINITION (без summary и how)
     // ============================================================
     function buildScreens() {
         return [
-            // 0: Welcome
             { id: 'welcome', label: 'Welcome' },
-            // 1: Emoji check-in
             { id: 'emoji', label: 'Emoji' },
-            // 2: Choose warm-up
             { id: 'warmup', label: 'Warm-up' },
-            // 3: Question Wheel
             { id: 'wheel', label: 'Wheel' },
-            // 4: Two Truths & a Lie
             { id: 'truths', label: 'Truths' },
-            // 5: Picture Talk
             { id: 'picture', label: 'Picture' },
-            // 6: Your English Story
             { id: 'story', label: 'Story' },
-            // 7: Goal Builder
             { id: 'goals', label: 'Goals' },
-            // 8: Mini Diagnostic
             { id: 'diagnostic', label: 'Diagnostic' },
-            // 9: Vocabulary Mini Lesson
             { id: 'vocab', label: 'Vocab' },
-            // 10: Matching Game
             { id: 'matching', label: 'Matching' },
-            // 11: Make it yours
             { id: 'makeit', label: 'Make it' },
-            // 12: Speaking Challenge
             { id: 'challenge', label: 'Challenge' },
-            // 13: Rapid Fire
             { id: 'rapid', label: 'Rapid' },
-            // 14: Listening Mini
             { id: 'listening', label: 'Listening' },
-            // 15: Your English Snapshot
             { id: 'snapshot', label: 'Snapshot' },
-            // 16: Personalized Summary
-            { id: 'summary', label: 'Summary' },
-            // 17: Student Feedback
             { id: 'feedback', label: 'Feedback' },
-            // 18: What lessons look like
             { id: 'lessons', label: 'Lessons' },
-            // 19: How lessons work
-            { id: 'how', label: 'How' },
-            // 20: Final Screen
             { id: 'final', label: 'Final' }
         ];
     }
@@ -669,24 +647,19 @@
         if (index < 0 || index >= screens.length) return;
         const screenId = screens[index].id;
 
-        // строим html для экрана
         let html = '';
         html += `<div class="screen active" data-screen="${screenId}">`;
         html += getScreenHTML(screenId);
         html += `</div>`;
         container.innerHTML = html;
 
-        // обновить навигацию
         document.getElementById('stepIndicator').textContent = `${index+1} / ${screens.length}`;
         document.getElementById('navCounter').textContent = `${index+1} / ${screens.length}`;
         document.getElementById('prevBtn').disabled = (index === 0);
         document.getElementById('nextBtn').disabled = (index === screens.length-1);
         document.getElementById('progressFill').style.width = `${((index+1)/screens.length)*100}%`;
 
-        // инициализация интерактивов для экрана
         initScreen(screenId);
-
-        // teacher notes
         updateTeacherNotes(screenId);
     }
 
@@ -708,10 +681,8 @@
             case 'rapid': return rapidScreen();
             case 'listening': return listeningScreen();
             case 'snapshot': return snapshotScreen();
-            case 'summary': return summaryScreen();
             case 'feedback': return feedbackScreen();
             case 'lessons': return lessonsScreen();
-            case 'how': return howScreen();
             case 'final': return finalScreen();
             default: return '<p>Screen not found</p>';
         }
@@ -988,7 +959,6 @@
                 ${selected !== -1 ? `<div style="margin-top:0.4rem; color:#5f4a3f;">${t.explain}</div>` : ''}
             </div>`;
         });
-        // Task 4: free answer
         html += `
                 <div style="margin-bottom:1rem;">
                     <p><strong>Complete naturally: I used to ______, but now ______.</strong></p>
@@ -1036,7 +1006,6 @@
         const pairs = CONFIG.vocabularyPairs.slice(0, 4);
         const leftItems = pairs.map(p => p.base);
         const rightItems = pairs.map(p => p.upgrade);
-        // shuffle right
         const shuffledRight = [...rightItems].sort(() => Math.random() - 0.5);
         let html = `
             <div class="card">
@@ -1209,25 +1178,6 @@
         return html;
     }
 
-    function summaryScreen() {
-        const text = `“You already understand English quite well and can communicate your ideas. The main thing holding you back isn’t grammar — it’s speaking practice and active vocabulary. I’d focus our lessons on helping you speak without translating everything in your head, expanding the vocabulary you actually use, and getting you more comfortable with real spoken English.”`;
-        return `
-            <div class="card">
-                <h3>What I noticed today</h3>
-                <div style="background:#fdf9f6; border-radius:20px; padding:1rem 1.5rem; font-style:italic; color:#5f4a3f;">
-                    ${text}
-                </div>
-                <div style="margin-top:1rem;">
-                    <button class="btn btn-primary" onclick="navigator.clipboard.writeText(\`${text}\`).then(()=>alert('Copied!'))">📋 Copy feedback</button>
-                </div>
-                <div class="teacher-notes" id="teacherNotes_summary">
-                    <strong>👩‍🏫 Teacher notes:</strong>
-                    <ul><li>Edit the text if needed.</li></ul>
-                </div>
-            </div>
-        `;
-    }
-
     function feedbackScreen() {
         const qs = [
             { id: 'feel', label: 'How did you feel speaking English today?', options: ['😊 Comfortable','🙂 Mostly comfortable','😅 A little nervous','🫠 My brain left the chat'] },
@@ -1280,37 +1230,15 @@
         `;
     }
 
-    function howScreen() {
-        return `
-            <div class="card">
-                <h3>How lessons work</h3>
-                <div style="background:#fdf9f6; border-radius:20px; padding:1rem 1.5rem; margin:1rem 0;">
-                    <p><strong>Individual lessons</strong></p>
-                    <p>⏱️ 60 min</p>
-                    <p>💻 Online</p>
-                    <p>📋 Personal learning plan</p>
-                    <p>📚 All materials included</p>
-                    <p>📝 Homework + feedback</p>
-                </div>
-                <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
-                    <div class="card" style="text-align:center;">${CONFIG.lessonPrice}</div>
-                    <div class="card" style="text-align:center;">${CONFIG.packagePrice}</div>
-                </div>
-                <div class="teacher-notes" id="teacherNotes_how">
-                    <strong>👩‍🏫 Teacher notes:</strong>
-                    <ul><li>Adjust prices in CONFIG.</li></ul>
-                </div>
-            </div>
-        `;
-    }
-
     function finalScreen() {
+        // найти индекс экрана feedback
+        const feedbackIdx = state.screens.findIndex(s => s.id === 'feedback');
         return `
             <div class="card text-center" style="padding:2.5rem 2rem;">
                 <h2 style="font-size:2.5rem;">That’s it — you survived your first English lesson with me 🎉</h2>
                 <p style="font-size:1.4rem; color:#7a645a; margin:1rem 0;">And yes, your English is probably better than you think.</p>
                 <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="goToScreen(15)">See my feedback</button>
+                    <button class="btn btn-primary" onclick="goToScreen(${feedbackIdx})">See my feedback</button>
                     <button class="btn" onclick="alert('Let’s continue! Contact me for next lesson.')">Let’s continue →</button>
                 </div>
                 <div style="margin-top:2rem; font-family:'Playfair Display',serif; font-size:1.5rem; color:#b39184;">See you in English.</div>
@@ -1332,7 +1260,6 @@
             case 'snapshot': break;
             default: break;
         }
-        // обновить teacher notes
         updateTeacherNotes(id);
     }
 
@@ -1377,7 +1304,6 @@
             ctx.strokeStyle = '#fff5f0';
             ctx.lineWidth = 2;
             ctx.stroke();
-            // номер
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(start + step/2);
@@ -1388,7 +1314,6 @@
             ctx.fillText(i+1, r*0.65, 0);
             ctx.restore();
         }
-        // центр
         ctx.beginPath();
         ctx.arc(cx, cy, 35, 0, 2*Math.PI);
         ctx.fillStyle = '#f5e4db';
@@ -1396,7 +1321,6 @@
         ctx.strokeStyle = '#dbb8ab';
         ctx.lineWidth = 3;
         ctx.stroke();
-        // стрелка
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(rotation);
@@ -1408,7 +1332,6 @@
         ctx.fillStyle = '#dbb8ab';
         ctx.fill();
         ctx.restore();
-        // оставшиеся
         document.getElementById('remainingCount').textContent = `Осталось: ${count}`;
         if (count === 0) {
             document.getElementById('spinBtn').disabled = true;
@@ -1447,11 +1370,9 @@
             } else {
                 state.wheelRotation = startRotation + totalRotation;
                 drawWheel(ctx, canvas, questions, state.wheelRotation);
-                // выбрать вопрос
                 const q = questions[targetIdx];
                 state.lastWheelQuestion = q;
                 document.getElementById('questionDisplay').innerHTML = `<span>${q}</span>`;
-                // удалить вопрос
                 state.availableQuestions.splice(targetIdx, 1);
                 drawWheel(ctx, canvas, state.availableQuestions, state.wheelRotation);
                 isSpinning = false;
@@ -1520,10 +1441,8 @@
 
     // ---------- STORY ----------
     function selectStoryOption(key, val) {
-        // просто сохраняем в state
         if (!state.story) state.story = {};
         state.story[key] = val;
-        // визуально выделим
         document.querySelectorAll(`[onclick*="selectStoryOption('${key}")`).forEach(el => {
             el.classList.toggle('btn-primary');
         });
@@ -1535,7 +1454,6 @@
         const idx = arr.indexOf(val);
         if (idx > -1) arr.splice(idx, 1);
         else arr.push(val);
-        // визуально
         document.querySelectorAll(`[onclick*="toggleStoryMulti('${key}")`).forEach(el => {
             if (arr.includes(val)) el.classList.add('btn-primary');
             else el.classList.remove('btn-primary');
@@ -1602,7 +1520,6 @@
         e.preventDefault();
         const targetPair = e.target.dataset.pair;
         if (draggedId === targetPair) {
-            // match!
             e.target.classList.add('matched');
             document.querySelector(`.match-item[data-pair="${draggedId}"][data-type="right"]`).classList.add('matched');
             document.getElementById('matchResult').textContent = '✅ Matched! Nice!';
@@ -1694,7 +1611,6 @@
         if (index < 0 || index >= state.screens.length) return;
         state.currentScreen = index;
         renderScreen(index);
-        // сохранить состояние
         saveState();
     }
 
@@ -1712,7 +1628,6 @@
             if (data) {
                 const parsed = JSON.parse(data);
                 Object.assign(state, parsed);
-                // восстановить некоторые массивы
                 if (!state.availableQuestions || state.availableQuestions.length === 0) {
                     state.availableQuestions = [...CONFIG.wheelQuestions];
                 }
@@ -1731,13 +1646,10 @@
     //  INIT APP
     // ============================================================
     function initApp() {
-        // загружаем состояние
         loadState();
-        // screens
         state.screens = buildScreens();
         state.totalScreens = state.screens.length;
         if (state.currentScreen >= state.totalScreens) state.currentScreen = 0;
-        // teacher mode toggle
         document.getElementById('teacherToggle').addEventListener('click', function() {
             state.teacherMode = !state.teacherMode;
             this.classList.toggle('active');
@@ -1746,20 +1658,16 @@
         if (state.teacherMode) {
             document.getElementById('teacherToggle').classList.add('active');
         }
-        // навигация
         document.getElementById('prevBtn').addEventListener('click', () => {
             if (state.currentScreen > 0) goToScreen(state.currentScreen - 1);
         });
         document.getElementById('nextBtn').addEventListener('click', () => {
             if (state.currentScreen < state.screens.length - 1) goToScreen(state.currentScreen + 1);
         });
-        // render первый экран
         renderScreen(state.currentScreen);
-        // сохраняем состояние при изменениях
         window.addEventListener('beforeunload', saveState);
     }
 
-    // запуск
     document.addEventListener('DOMContentLoaded', initApp);
 </script>
 </body>
